@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    {% if current_ide_url %}
+        <div class="row mb-5">
+            <h2 class="ml-auto mr-auto">
+                <a href="{{ current_ide_url }}" target="_blank"> Currently Open IDE: {{ current_ide_class }} </a>
+            </h2>
+        </div>
+    {% endif %}
+    <div class="row">
+        {% for class in classes_teaching %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h5 class="m-0 font-weight-bold text-primary">
+                      <a href="{% url 'class_info' class_id=class.id %}" >{{class.classroom_name}} </a>
+                  </h5>
+
+                </div>
+                <div class="card-body">
+                  {% if class.description %} <b>Description: </b> {{class.description}} <br/>{% endif %}
+                  Environment: {% if class.env == "C" %} C++ {% elif class.env == "J" %} Java {% else %} Python {% endif %}
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if classes_teaching|length != 0 and classes_learning|length != 0 %}
+        <hr style="margin-bottom: 2.5rem"/>
+    {% endif %}
+
+    <div class="row">
+        {% for class in classes_learning %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">
+                      <a href="{% url 'class_info' class_id=class.id %}">{{class.classroom_name}} </a>
+                  </h6>
+                </div>
+                <div class="card-body">
+                  {% if class.description %} <b>Description: </b> {{class.description}} <br/>{% endif %}
+                  Environment: {% if class.env == "C" %} C++ {% elif class.env == "J" %} Java {% else %} Python {% endif %}
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+</div>
+{% endblock %}
